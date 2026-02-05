@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Epicurean Delights - Reservation Bot</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-utensils"></i>
+                <h1>Epicurean Delights</h1>
+            </div>
+            <nav class="nav">
+                <button class="nav-btn active" data-section="chat">
+                    <i class="fas fa-comments"></i> Chat
+                </button>
+                <button class="nav-btn" data-section="reservation">
+                    <i class="fas fa-calendar-check"></i> Book Table
+                </button>
+                <button class="nav-btn" data-section="menu">
+                    <i class="fas fa-book-open"></i> Menu
+                </button>
+                <button class="nav-btn" data-section="info">
+                    <i class="fas fa-info-circle"></i> Info
+                </button>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Chat Section -->
+            <section id="chat-section" class="section active">
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <h2><i class="fas fa-robot"></i> Dining Assistant</h2>
+                        <p>Ask me about reservations, menu, or hours</p>
+                    </div>
+                    
+                    <div class="chat-messages" id="chat-messages">
+                        <!-- Messages will appear here -->
+                        <div class="message bot">
+                            <div class="message-avatar">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="message-content">
+                                <p>Hello! Welcome to Epicurean Delights. I'm your dining assistant. How can I help you today? 😊</p>
+                                <span class="message-time">Just now</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="quick-suggestions" id="quick-suggestions">
+                        <button class="suggestion-btn">Book a table</button>
+                        <button class="suggestion-btn">View menu</button>
+                        <button class="suggestion-btn">Check hours</button>
+                        <button class="suggestion-btn">Dietary options</button>
+                    </div>
+                    
+                    <div class="chat-input-container">
+                        <input type="text" id="chat-input" placeholder="Type your message here..." autocomplete="off">
+                        <button id="send-btn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                        <button id="mic-btn">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reservation Section -->
+            <section id="reservation-section" class="section">
+                <div class="reservation-container">
+                    <h2><i class="fas fa-calendar-plus"></i> Book Your Table</h2>
+                    
+                    <div class="reservation-steps">
+                        <div class="step active" data-step="1">
+                            <div class="step-number">1</div>
+                            <span>Details</span>
+                        </div>
+                        <div class="step" data-step="2">
+                            <div class="step-number">2</div>
+                            <span>Time</span>
+                        </div>
+                        <div class="step" data-step="3">
+                            <div class="step-number">3</div>
+                            <span>Confirm</span>
+                        </div>
+                    </div>
+                    
+                    <form id="reservation-form">
+                        <!-- Step 1: Details -->
+                        <div class="form-step active" data-step="1">
+                            <div class="form-group">
+                                <label for="name"><i class="fas fa-user"></i> Full Name</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                                    <input type="email" id="email" name="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone"><i class="fas fa-phone"></i> Phone</label>
+                                    <input type="tel" id="phone" name="phone" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="party-size"><i class="fas fa-users"></i> Party Size</label>
+                                    <select id="party-size" name="party-size" required>
+                                        <option value="">Select</option>
+                                        <option value="1">1 person</option>
+                                        <option value="2" selected>2 people</option>
+                                        <option value="3">3 people</option>
+                                        <option value="4">4 people</option>
+                                        <option value="5">5 people</option>
+                                        <option value="6">6 people</option>
+                                        <option value="7">7-12 people (call us)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="date"><i class="fas fa-calendar-day"></i> Date</label>
+                                    <input type="date" id="date" name="date" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="requests"><i class="fas fa-star"></i> Special Requests</label>
+                                <textarea id="requests" name="requests" rows="3" placeholder="Dietary restrictions, celebrations, etc."></textarea>
+                            </div>
+                            
+                            <button type="button" class="btn-next" data-next="2">Next: Choose Time</button>
+                        </div>
+                        
+                        <!-- Step 2: Time Selection -->
+                        <div class="form-step" data-step="2">
+                            <div class="time-selection">
+                                <h3>Select Time</h3>
+                                <div class="time-slots" id="time-slots">
+                                    <!-- Time slots will be loaded here -->
+                                </div>
+                                <div class="time-recommendations">
+                                    <h4><i class="fas fa-lightbulb"></i> Recommended Times</h4>
+                                    <div id="recommended-times"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn-prev" data-prev="1">Back</button>
+                                <button type="button" class="btn-next" data-next="3">Next: Confirm</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 3: Confirmation -->
+                        <div class="form-step" data-step="3">
+                            <div class="confirmation-summary">
+                                <h3><i class="fas fa-clipboard-check"></i> Confirm Your Reservation</h3>
+                                <div class="summary-details" id="summary-details">
+                                    <!-- Summary will be populated here -->
+                                </div>
+                                
+                                <div class="confirmation-actions">
+                                    <button type="submit" class="btn-confirm">
+                                        <i class="fas fa-check-circle"></i> Confirm Booking
+                                    </button>
+                                    <button type="button" class="btn-edit" data-edit="1">
+                                        <i class="fas fa-edit"></i> Edit Details
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    <div id="reservation-result" class="result-container"></div>
+                </div>
+            </section>
+
+            <!-- Menu Section -->
+            <section id="menu-section" class="section">
+                <div class="menu-container">
+                    <h2><i class="fas fa-book-open"></i> Our Menu</h2>
+                    
+                    <div class="menu-categories">
+                        <button class="category-btn active" data-category="all">All Items</button>
+                        <button class="category-btn" data-category="appetizer">Appetizers</button>
+                        <button class="category-btn" data-category="main">Main Courses</button>
+                        <button class="category-btn" data-category="dessert">Desserts</button>
+                        <button class="category-btn" data-category="drink">Drinks</button>
+                    </div>
+                    
+                    <div class="menu-items" id="menu-items">
+                        <!-- Menu items will be loaded here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Info Section -->
+            <section id="info-section" class="section">
+                <div class="info-container">
+                    <h2><i class="fas fa-info-circle"></i> Restaurant Information</h2>
+                    
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <div class="info-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <h3>Opening Hours</h3>
+                            <div class="hours-list" id="hours-list">
+                                <!-- Hours will be loaded here -->
+                            </div>
+                        </div>
+                        
+                        <div class="info-card">
+                            <div class="info-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <h3>Location</h3>
+                            <p id="restaurant-address">Loading...</p>
+                            <button class="btn-map">
+                                <i class="fas fa-directions"></i> Get Directions
+                            </button>
+                        </div>
+                        
+                        <div class="info-card">
+                            <div class="info-icon">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <h3>Contact</h3>
+                            <p><i class="fas fa-phone"></i> <span id="restaurant-phone">Loading...</span></p>
+                            <p><i class="fas fa-envelope"></i> <span id="restaurant-email">Loading...</span></p>
+                        </div>
+                        
+                        <div class="info-card">
+                            <div class="info-icon">
+                                <i class="fas fa-concierge-bell"></i>
+                            </div>
+                            <h3>Features</h3>
+                            <ul id="restaurant-features">
+                                <!-- Features will be loaded here -->
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="about-section">
+                        <h3>About Epicurean Delights</h3>
+                        <p id="restaurant-description">Loading...</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>© 2024 Epicurean Delights. All rights reserved.</p>
+            <p class="api-status">
+                <span id="api-status" class="status-offline">
+                    <i class="fas fa-circle"></i> Connecting...
+                </span>
+            </p>
+        </footer>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="spinner">
+            <i class="fas fa-utensils fa-spin"></i>
+            <p>Loading...</p>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-icon success">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3>Reservation Confirmed!</h3>
+            <div id="confirmation-details"></div>
+            <button class="btn-close-modal">Continue</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
